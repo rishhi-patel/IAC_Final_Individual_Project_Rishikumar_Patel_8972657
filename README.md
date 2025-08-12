@@ -2,8 +2,6 @@
 
 **Student:** Rishikumar Patel · **ID:** 8972657
 
-This repository delivers exactly what the brief requires—no extras—implemented in **Terraform** and **CloudFormation** with your tags applied to all resources.
-
 ## Repository Layout
 
 ```
