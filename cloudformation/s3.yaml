@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "PROG8870 - 3 Private S3 Buckets with PAB and Versioning"
+
+Parameters:
+  StudentName:
+    Type: String
+  StudentID:
+    Type: String
+  Bucket1Name:
+    Type: String
+  Bucket2Name:
+    Type: String
+  Bucket3Name:
+    Type: String
+
+Resources:
+  Bucket1:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref Bucket1Name
+      VersioningConfiguration: { Status: Enabled }
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: StudentName
+          Value: !Ref StudentName
+        - Key: StudentID
+          Value: !Ref StudentID
+        - Key: Name
+          Value: !Ref Bucket1Name
+
+  Bucket2:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref Bucket2Name
+      VersioningConfiguration: { Status: Enabled }
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: StudentName
+          Value: !Ref StudentName
+        - Key: StudentID
+          Value: !Ref StudentID
+        - Key: Name
+          Value: !Ref Bucket2Name
+
+  Bucket3:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref Bucket3Name
+      VersioningConfiguration: { Status: Enabled }
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: StudentName
+          Value: !Ref StudentName
+        - Key: StudentID
+          Value: !Ref StudentID
+        - Key: Name
+          Value: !Ref Bucket3Name

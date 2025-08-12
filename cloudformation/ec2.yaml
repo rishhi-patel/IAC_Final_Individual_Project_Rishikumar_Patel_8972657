@@ -1,0 +1,109 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "PROG8870 - EC2 in custom VPC (public IP, SSH allowed)"
+
+Parameters:
+  StudentName: { Type: String }
+  StudentID: { Type: String }
+  VpcCidr: { Type: String, Default: "10.20.0.0/16" }
+  PublicSubnet: { Type: String, Default: "10.20.1.0/24" }
+  AmiId: { Type: AWS::EC2::Image::Id }
+  InstanceType: { Type: String, Default: "t3.micro" }
+  KeyName:
+    Type: String
+    Default: ""
+    Description: "Optional existing key pair name"
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - { Key: Name, Value: "prog8870-vpc" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  IGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - { Key: Name, Value: "prog8870-igw" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  AttachIGW:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref IGW
+
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PublicSubnet
+      MapPublicIpOnLaunch: true
+      Tags:
+        - { Key: Name, Value: "public-a" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  PublicRT:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - { Key: Name, Value: "public-rt" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRT
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref IGW
+    DependsOn: AttachIGW
+
+  AssocPublicA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRT
+
+  SGSSH:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Allow SSH"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - { Key: Name, Value: "ec2-ssh-sg" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiId
+      InstanceType: !Ref InstanceType
+      KeyName: !If [HasKey, !Ref KeyName, !Ref "AWS::NoValue"]
+      SubnetId: !Ref PublicSubnetA
+      SecurityGroupIds: [!Ref SGSSH]
+      Tags:
+        - { Key: Name, Value: "prog8870-ec2" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+Conditions:
+  HasKey: !Not [!Equals [!Ref KeyName, ""]]
+
+Outputs:
+  InstancePublicIp:
+    Description: "Public IP of EC2"
+    Value: !GetAtt EC2Instance.PublicIp

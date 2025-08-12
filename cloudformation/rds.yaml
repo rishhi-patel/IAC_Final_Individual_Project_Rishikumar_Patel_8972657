@@ -1,0 +1,147 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "PROG8870 - MySQL RDS (db.t3.micro) with public access"
+
+Parameters:
+  StudentName: { Type: String }
+  StudentID: { Type: String }
+  VpcCidr: { Type: String, Default: "10.30.0.0/16" }
+  PublicSubnet1: { Type: String, Default: "10.30.1.0/24" }
+  PublicSubnet2: { Type: String, Default: "10.30.2.0/24" }
+  DBName: { Type: String, Default: "appdb" }
+  MasterUsername: { Type: String, Default: "adminuser" }
+  MasterUserPassword:
+    Type: String
+    NoEcho: true
+    MinLength: 8
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - { Key: Name, Value: "prog8870-vpc-rds" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  IGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - { Key: Name, Value: "prog8870-igw-rds" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  AttachIGW:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref IGW
+
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PublicSubnet1
+      MapPublicIpOnLaunch: true
+      Tags:
+        - { Key: Name, Value: "public-a" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  PublicSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PublicSubnet2
+      MapPublicIpOnLaunch: true
+      Tags:
+        - { Key: Name, Value: "public-b" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  PublicRT:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - { Key: Name, Value: "public-rt" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRT
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref IGW
+    DependsOn: AttachIGW
+
+  AssocPublicA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRT
+
+  AssocPublicB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetB
+      RouteTableId: !Ref PublicRT
+
+  SGMySQL:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Allow MySQL 3306 from anywhere (project only)"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - { Key: Name, Value: "rds-mysql-sg" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: "RDS public subnets for project demo"
+      SubnetIds: [!Ref PublicSubnetA, !Ref PublicSubnetB]
+      Tags:
+        - { Key: Name, Value: "prog8870-db-subnets" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+  MySQLDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      Engine: mysql
+      EngineVersion: "8.0"
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: 20
+      DBName: !Ref DBName
+      MasterUsername: !Ref MasterUsername
+      MasterUserPassword: !Ref MasterUserPassword
+      PubliclyAccessible: true
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      VPCSecurityGroups: [!GetAtt SGMySQL.GroupId]
+      DeletionProtection: false
+      MultiAZ: false
+      BackupRetentionPeriod: 0
+      StorageType: gp2
+      Tags:
+        - { Key: Name, Value: "prog8870-mysql" }
+        - { Key: StudentName, Value: !Ref StudentName }
+        - { Key: StudentID, Value: !Ref StudentID }
+
+Outputs:
+  DBEndpoint:
+    Description: "RDS endpoint"
+    Value: !GetAtt MySQLDB.Endpoint.Address
+  DBPort:
+    Description: "RDS port"
+    Value: !GetAtt MySQLDB.Endpoint.Port
