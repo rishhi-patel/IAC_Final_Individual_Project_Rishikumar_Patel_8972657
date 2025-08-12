@@ -94,7 +94,7 @@ aws cloudformation deploy   --template-file cloudformation/s3.yaml   --stack-nam
 ### Deploy EC2 (with its own VPC, public subnet, SSH allowed)
 
 ```bash
-aws cloudformation deploy   --template-file cloudformation/ec2.yaml   --stack-name cf-ec2   --parameter-overrides     StudentName="Rishikumar Patel"     StudentID="8972657"     AmiId="ami-0c55b159cbfafe1f0"     InstanceType="t3.micro"     KeyName=""   --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation deploy   --template-file cloudformation/ec2.yaml   --stack-name cf-ec2   --parameter-overrides     StudentName="Rishikumar Patel"     StudentID="8972657"     AmiId="ami-0de716d6197524dd9"     InstanceType="t3.micro"     KeyName=""   --capabilities CAPABILITY_NAMED_IAM
 ```
 
 **Output:** `InstancePublicIp`
@@ -136,4 +136,31 @@ aws cloudformation delete-stack --stack-name cf-rds
 - ✅ **RDS:** MySQL instance **available** with public endpoint visible.
 
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/eb2dfd4d-d65f-4690-8b7a-15a3803720e5" />
+
+## Validation Checklist (Cloud Formation)
+
+- ✅ **S3:** Four TF buckets and three CFN buckets with **Versioning: Enabled** and **Public access blocked**.
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/4db87ea2-eaf1-43ca-9f4f-185315191bf9" />
+
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/a5416713-d35b-4f8c-8b66-93821752defa" />
+
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/cf313293-d2ad-45ef-ac27-6df4112c1a5d" />
+
+
+
+- ✅ **EC2:** Instance in custom VPC with **Public IP** visible; SG allows **SSH (22)**.
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/f2df6729-f3bd-46fa-8daa-253d1c7d2888" />
+
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/3ed3ba01-2eed-4ce0-9141-fe8c3a75a451" />
+
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/5567de93-ba26-432f-8b6c-0b0c7e61a309" />
+
+
+- ✅ **RDS:** MySQL instance **available** with public endpoint visible.
+
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/cd2db679-09ff-4244-8a29-052617cd8177" />
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/d00dacb5-8a95-462f-beea-6a9f13a9cfd5" />
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/537bd54a-8507-4f31-bbac-b7718adfdb1e" />
+
+
 
