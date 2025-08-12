@@ -46,6 +46,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: !Ref PublicSubnet1
       MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs ""]
       Tags:
         - { Key: Name, Value: "public-a" }
         - { Key: StudentName, Value: !Ref StudentName }
@@ -57,6 +58,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: !Ref PublicSubnet2
       MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [1, !GetAZs ""]
       Tags:
         - { Key: Name, Value: "public-b" }
         - { Key: StudentName, Value: !Ref StudentName }
