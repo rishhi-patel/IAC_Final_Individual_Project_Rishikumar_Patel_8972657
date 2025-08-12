@@ -12,7 +12,7 @@ s3_bucket_names = [
 ]
 
 
-ami_id        = "ami-0c55b159cbfafe1f0"
+ami_id        = "ami-0de716d6197524dd9"
 instance_type = "t3.micro"
 key_name      = ""
 
