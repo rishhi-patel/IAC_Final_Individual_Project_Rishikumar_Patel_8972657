@@ -1,7 +1,3 @@
----
-marp: true
----
-
 # PROG 8870 — Final Individual Project (AWS IaC)
 
 **Student:** Rishikumar Patel · **ID:** 8972657
@@ -27,9 +23,8 @@ aws-iac-final/
 
 ## Terraform (VPC, 4×S3, EC2, RDS)
 
-1. Copy the `terraform/` folder contents into your repo.
-2. Edit `terraform/terraform.tfvars` with your values (sample below). Ensure **four** globally unique S3 names.
-3. Initialize and apply:
+1. Edit `terraform/terraform.tfvars` with your values (sample below). Ensure **four** globally unique S3 names.
+2. Initialize and apply:
 
 ```bash
 cd terraform
