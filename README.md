@@ -1,3 +1,7 @@
+---
+marp: true
+---
+
 # PROG 8870 — Final Individual Project (AWS IaC)
 
 **Student:** Rishikumar Patel · **ID:** 8972657
@@ -120,18 +124,16 @@ aws cloudformation delete-stack --stack-name cf-rds
 ## Validation Checklist (terraform)
 
 - ✅ **Terraform:** CLI output of `terraform apply` and **Outputs** block.
-<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/27238552-5c26-4580-8541-d5a5e30ff437" />
+  <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/27238552-5c26-4580-8541-d5a5e30ff437" />
 
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/d3bf8170-847b-464d-bd91-c3644d82db34" />
-
 
 - ✅ **S3:** Four TF buckets and three CFN buckets with **Versioning: Enabled** and **Public access blocked**.
 
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/4bfbc181-25f3-46da-9e4e-4023c2ad6f87" />
 
-
 - ✅ **EC2:** Instance in custom VPC with **Public IP** visible; SG allows **SSH (22)**.
-<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/0db5f954-d239-421c-a412-bb800f89d9bd" />
+  <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/0db5f954-d239-421c-a412-bb800f89d9bd" />
 
 - ✅ **RDS:** MySQL instance **available** with public endpoint visible.
 
@@ -140,27 +142,21 @@ aws cloudformation delete-stack --stack-name cf-rds
 ## Validation Checklist (Cloud Formation)
 
 - ✅ **S3:** Four TF buckets and three CFN buckets with **Versioning: Enabled** and **Public access blocked**.
-<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/4db87ea2-eaf1-43ca-9f4f-185315191bf9" />
+  <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/4db87ea2-eaf1-43ca-9f4f-185315191bf9" />
 
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/a5416713-d35b-4f8c-8b66-93821752defa" />
 
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/cf313293-d2ad-45ef-ac27-6df4112c1a5d" />
 
-
-
 - ✅ **EC2:** Instance in custom VPC with **Public IP** visible; SG allows **SSH (22)**.
-<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/f2df6729-f3bd-46fa-8daa-253d1c7d2888" />
+  <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/f2df6729-f3bd-46fa-8daa-253d1c7d2888" />
 
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/3ed3ba01-2eed-4ce0-9141-fe8c3a75a451" />
 
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/5567de93-ba26-432f-8b6c-0b0c7e61a309" />
-
 
 - ✅ **RDS:** MySQL instance **available** with public endpoint visible.
 
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/cd2db679-09ff-4244-8a29-052617cd8177" />
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/d00dacb5-8a95-462f-beea-6a9f13a9cfd5" />
 <img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/537bd54a-8507-4f31-bbac-b7718adfdb1e" />
-
-
-
