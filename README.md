@@ -87,8 +87,6 @@ terraform destroy -var-file="terraform.tfvars"
 
 ## CloudFormation (S3 ×3, EC2, RDS)
 
-Each template is self-contained and tags resources with your name and ID.
-
 ### Deploy S3 (3 buckets: private + versioning + PublicAccessBlock)
 
 ```bash
