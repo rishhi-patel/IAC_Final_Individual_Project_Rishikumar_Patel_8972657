@@ -1,0 +1,35 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+.crash
+.terraform/
+terraform.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+# Sensitive files
+*.tfvars.json
+# Local .terraform directories
+**/.terraform/*
+# Plan output
+*.plan
+
+# CloudFormation
+# AWS SAM build artifacts
+.aws-sam/
+# CloudFormation temp files
+*.template
+*.template.json
+*.template.yaml
+# CloudFormation change set files
+change-set-*.json
+change-set-*.yaml
+
+# General
+*.log
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
