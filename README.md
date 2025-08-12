@@ -121,10 +121,23 @@ aws cloudformation delete-stack --stack-name cf-rds
 
 ---
 
-## Validation Checklist
+## Validation Checklist (terraform)
 
 - ✅ **Terraform:** CLI output of `terraform apply` and **Outputs** block.
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/27238552-5c26-4580-8541-d5a5e30ff437" />
+
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/d3bf8170-847b-464d-bd91-c3644d82db34" />
+
+
 - ✅ **S3:** Four TF buckets and three CFN buckets with **Versioning: Enabled** and **Public access blocked**.
+
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/4bfbc181-25f3-46da-9e4e-4023c2ad6f87" />
+
+
 - ✅ **EC2:** Instance in custom VPC with **Public IP** visible; SG allows **SSH (22)**.
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/0db5f954-d239-421c-a412-bb800f89d9bd" />
+
 - ✅ **RDS:** MySQL instance **available** with public endpoint visible.
-- ✅ **Tags:** Verify `StudentName=Rishikumar Patel`, `StudentID=8972657` on all resources.
+
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/eb2dfd4d-d65f-4690-8b7a-15a3803720e5" />
+
